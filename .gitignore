@@ -1,0 +1,9 @@
+/audio
+/venv
+/gitignore
+audio/
+*.wav
+*.mp4
+*.part
+venv/
+*/__pycache__/
