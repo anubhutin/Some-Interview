@@ -46,7 +46,32 @@ about his tone, posture, because you don't know about this, but you have the tra
         cleaned_text = re.sub(r'\[\d+\.\d+s\s*-\s*\d+\.\d+s\]', '', text)
         return ' '.join(cleaned_text.split())
 
-    def evaluate_transcription(self, transcription_data):
+    def map_expression_and_gesture_feedback(self, evaluation_scores):
+        gesture_feedback_map = {
+            "very high": "The speaker used excessive hand and body gestures. Reducing the intensity slightly could help avoid distraction and improve clarity.",
+            "high": "The speaker used expressive gestures, though slightly overdone. A more measured use of gestures could enhance the overall delivery.",
+            "medium": "The speaker maintained a good balance of hand and body gestures, effectively supporting their speech. Great job!",
+            "low": "The speaker's gestures were minimal. Adding more expressive movements could make the presentation more engaging.",
+            "very low": "The speaker rarely used any gestures. Incorporating some body language could significantly boost engagement.",
+            "hands not detected": "Hands not detected. Please move further from the camera to allow for natural body movements to be captured."
+        }
+
+        expression_feedback_map = {
+            5: "The speaker had excellent and very positive facial expressions. This greatly enhanced the delivery and helped connect with the audience.",
+            4: "The speaker showed good facial expressions, adding warmth and engagement to the talk. A bit more consistency could make it even better.",
+            3: "Facial expressions were moderate. While present at times, increasing expressiveness could make the talk more dynamic.",
+            2: "There was limited facial expression, which may have made the delivery feel a bit flat. Try to show more enthusiasm or emotion when appropriate.",
+            1: "Facial expressions were minimal or absent. Adding expressiveness can significantly improve the impact and connection with the audience.",
+            0: "No expression data available."
+        }
+
+        gesture_comment = gesture_feedback_map.get(evaluation_scores.get("gesture_energy", "hands not detected"), "")
+        expression_score = evaluation_scores.get("positive_expression_score", 0)
+        expression_comment = expression_feedback_map.get(expression_score, "No expression data available.")
+
+        return [expression_comment, gesture_comment]
+
+    def evaluate_transcription(self, transcription_data, evaluation_scores=None):
         if isinstance(transcription_data, dict):
             text = transcription_data.get('text', '')
         else:
@@ -58,10 +83,21 @@ about his tone, posture, because you don't know about this, but you have the tra
         cleaned_text = self.clean_transcription(text)
 
        
+        if evaluation_scores is None:
+            try:
+                with open("json/output.json", "r") as f:
+                    evaluation_scores = json.load(f)
+            except FileNotFoundError:
+                evaluation_scores = {}
+
         llm_output = self.chain.invoke({
             "transcription_input": cleaned_text
         })
 
+        if evaluation_scores:
+            additional_feedback = self.map_expression_and_gesture_feedback(evaluation_scores)
+            if isinstance(llm_output, dict) and "Quantitative Analysis" in llm_output:
+                llm_output["Quantitative Analysis"].extend(additional_feedback)
         with open('json/quality_analysis.json' , 'w') as fp:
             json.dump(llm_output , fp)
 

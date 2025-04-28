@@ -3,10 +3,10 @@ import os
 import json
 from LLM_Module.newtranscriber import VideoTranscriber
 from LLM_Module.Overall_Analyser import VideoResumeEvaluator
-from video_module.VideoEvaluation import VideoAnalyzer 
+from video_module.VideoEvaluations import VideoAnalyzer 
 from LLM_Module.Qualitative_Analyser import VideoResumeEvaluator2
-from PDF_Generator import create_combined_pdf
-from compressor import compress_video
+from report_generation_module.PDF_Generator import create_combined_pdf
+from video_module.compressor import compress_video
 
 st.set_page_config(
     page_title="Video Analysis & Report Generator",

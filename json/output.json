@@ -1,8 +1,8 @@
 {
-    "posture": 4,
-    "Eye Contact": 4,
-    "Smile Score": 3,
-    "Energetic Start": 2,
-    "User Name": "Urmila",
-    "LLM": "These are the Answers:\n1. You spoke with some level of confidence.\n2. You maintained a good tone. Your volume was consistent. A few words were pronounced very fast.\n3. The speech started with an introduction. The body of the speech lacked clear transitions. The conclusion was not clearly defined.\n4. The objective of the speech was somewhat clear. You stated the main idea at the beginning. The purpose of the speech was to gather ideas.\n5. The content was mostly to the point. Some ideas seemed unrelated to the main topic. You could have provided more focus.\n6. The content was relevant to the objective. You discussed workshops and ideas. The topics were related to the main idea. The speech stayed on topic.\n7. The content was somewhat clear. Some sentences were hard to follow. You could have provided more explanation.\n8. You did not provide many examples. The speech lacked anecdotes. Data was not provided to back up the content.\n9. You seemed somewhat credible. Your idea was interesting. You did not provide much background information.\n10. You did not clearly explain the benefits. The audience's gain was not stated. You could have provided more information.\n11. You did not make an emotional connection. The speech was mostly factual. The audience was not appealed to on an emotional level.\n12. You were not totally convincing. The speech lacked persuasion. The audience may not be motivated to act."
+    "posture": 3,
+    "Eye Contact": 2,
+    "Smile Score": 2,
+    "Energetic Start": 3,
+    "positive_expression_score": 3,
+    "Energy levels through the presentation": "very low"
 }

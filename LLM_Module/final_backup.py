@@ -20,15 +20,17 @@ Transcription: {transcription_input}
 Questions:
 1. Did the Speaker Speak with Confidence? (One line answer)
 2. Was the content interesting and as per the guidelines provided? (One line answer)
-3. Who are you and what are your skills, expertise, and personality traits? (Provide only a rating: Needs Improvement, Poor, Satisfactory, or Excellent)
-4. Why are you the best person to fit this role? (Provide only a rating: Excellent, Good, or Poor)
-5. How are you different from others? (Provide only a rating: Excellent, Good, or Poor)
-6. What value do you bring to the role? (Provide only a rating: Excellent, Good, or Poor)
-7. Did the speech have a structure of Opening, Body, and Conclusion? (One line descriptive answer)
-8. Did the speaker vary their tone, speed, and volume while delivering the speech/presentation? Here are the details provided about the tone, speed, pace, and volume, {audio_metrics}, I want you 
+3. Did they use any hand or body gesture while speaking? (One line answer)
+4. Did they have expression on thier face?  (One line answer)
+5. Who are you and what are your skills, expertise, and personality traits? (Provide only a rating: Needs Improvement, Poor, Satisfactory, or Excellent)
+6. Why are you the best person to fit this role? (Provide only a rating: Excellent, Good, or Poor)
+7. How are you different from others? (Provide only a rating: Excellent, Good, or Poor)
+8. What value do you bring to the role? (Provide only a rating: Excellent, Good, or Poor)
+9. Did the speech have a structure of Opening, Body, and Conclusion? (One line descriptive answer)
+10. Did the speaker vary their tone, speed, and volume while delivering the speech/presentation? Here are the details provided about the tone, speed, pace, and volume, {audio_metrics}, I want you 
 to give the answer in a sentence format, (For ex : The Tone and Volume was appropriate. you could have maintained a steady Speed in Delivery. A few Words were pronounced very fast), I want you to give the answer in a proper sentence like the example, and doesn't provide the numerical metrics to user, it should be in sentence, but dont tell like, dont tell your that your tone was neutrl/sad/happy, say that your maintained a good tone, this is an example
-9. How was the quality of research for the topic? Did the speech demonstrate good depth and proper citations? (2-3 lines descriptive answer)
-10. How convinced were you with the overall speech on the topic? Was it persuasive? Will you consider them for the job/opportunity? (Descriptive answer)
+11. How was the quality of research for the topic? Did the speech demonstrate good depth and proper citations? (2-3 lines descriptive answer)
+12. How convinced were you with the overall speech on the topic? Was it persuasive? Will you consider them for the job/opportunity? (Descriptive answer)
 Only provide the answers to these questions—do not include any extra commentary. 
 Start your response with "These are the Answers:" and then list each answer on a new line.
              """

@@ -121,17 +121,41 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file, flash, send_from_directory
 import os
 import json
+import boto3
 from LLM_Module.newtranscriber import VideoTranscriber
 from LLM_Module.Overall_Analyser import VideoResumeEvaluator
-from video_module.VideoEvaluation import VideoAnalyzer 
+from video_module.VideoEvaluations import VideoAnalyzer 
 from LLM_Module.Qualitative_Analyser import VideoResumeEvaluator2
 from report_generation_module.PDF_Generator import create_combined_pdf
 from video_module.drive_video_download import download_drive_url
 from LLM_Module.score_analyser import score_analyser
+from datetime import datetime
+from pymongo import MongoClient
+from werkzeug.utils import secure_filename
 os.environ['FLASK_RUN_EXTRA_FILES'] = ''
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"  # needed for flashing messages
+
+# AWS S3 Configuration
+S3_BUCKET = "some-prod2025"
+S3_REGION = "ap-south-1"  # e.g., "us-east-1"
+AWS_ACCESS_KEY = ""
+AWS_SECRET_KEY = ""
+
+# Initialize boto3 client with credentials
+s3_client = boto3.client(
+    "s3",
+    region_name=S3_REGION,
+    aws_access_key_id=AWS_ACCESS_KEY,
+    aws_secret_access_key=AWS_SECRET_KEY
+)
+
+# MongoDB connection setup
+MONGO_URI = "mongodb://localhost:27017"  # or your actual URI
+mongo_client = MongoClient(MONGO_URI)
+db = mongo_client["finalSomeResults"]
+reports_collection = db["userData"]
 
 # Ensure required folders exist
 for folder in ["json", "reports", os.path.join("static", "uploads")]:
@@ -170,6 +194,12 @@ def index():
                 file_path = os.path.join(uploads_dir, "video.mp4")
                 video_file.save(file_path)
                 video_filename = "video.mp4"
+            try:
+                with open(file_path, "rb") as data:
+                    s3_client.upload_fileobj(data, S3_BUCKET, f"videos/{secure_filename(user_name)}_video.mp4")
+                print("Video uploaded successfully.")
+            except Exception as e:
+                print("Video upload failed:", e)
 
             # Analyze the video
             with open(file_path, 'rb') as f:

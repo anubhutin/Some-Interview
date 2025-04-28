@@ -56,17 +56,19 @@ class VideoResumeEvaluator:
     1. Did the Speaker Speak with Confidence? (One line answer)
     2. Did the speaker vary their tone, speed, volume? Here are the details provided about the tone, speed, pace, and volume, {audio_metrics}, I want you 
     to give the answer in a sentence format, (For ex : The Tone and Volume was appropriate. you could have maintained a steady Speed in Delivery. A few Words were pronounced very fast), I want you to give the answer in a proper sentence like the example, and doesn't provide the numerical metrics to user, it should be in sentence, but dont tell like, dont tell your that your tone was neutrl/sad/happy, say that your maintained a good tone, this is an example
-    3. Who are you and what are your skills, expertise, personality traits ?
-    4. Why are you the best person to fit this role?(Give 3 multiple line seperate answers, including the point, where he/she performed well/bad)
-    5. How are you different from others?( 2-4 multiple lines but seperated by full stops. Avoid conjunctions and commas, including the point, where he/she performed well/bad)
-    6. What value do you bring to the role? (2-4 multiple lines but seperated by full stops. Avoid conjunctions and commas, including the point, where he/she performed well/bad)
-    7. Did the speech have a structure of Opening, Body and Conclusion? (Give a one line answer, including the point, where he/she performed well/bad)
-    8. How was the quality of research for the topic? 
+    3. Did they use any hand or body gesture while speaking? (One line answer)
+    4. Did they have expression on thier face?  (One line answer)
+    5. Who are you and what are your skills, expertise, personality traits ?
+    6. Why are you the best person to fit this role?(Give 3 multiple line seperate answers, including the point, where he/she performed well/bad)
+    7. How are you different from others?( 2-4 multiple lines but seperated by full stops. Avoid conjunctions and commas, including the point, where he/she performed well/bad)
+    8. What value do you bring to the role? (2-4 multiple lines but seperated by full stops. Avoid conjunctions and commas, including the point, where he/she performed well/bad)
+    9. Did the speech have a structure of Opening, Body and Conclusion? (Give a one line answer, including the point, where he/she performed well/bad)
+    10. How was the quality of research for the topic? 
        Did the student’s speech demonstrate a good depth? 
        Did they cite the sources of research properly? 
         (Give 3 multiple line seperate answers, including the point, where he/she performed well/bad)
-    9. How creatively did the student present the video? Give at max 3 multiple line seperate answers, including the point, where he/she performed well/bad)
-    10. How convinced were you with the overall speech on the topic? 
+    11. How creatively did the student present the video? Give at max 3 multiple line seperate answers, including the point, where he/she performed well/bad)
+    12. How convinced were you with the overall speech on the topic? 
         Was it persuasive? 
         Will you give them the job/opportunity? Give 3 multiple line seperate answers with full stop, including the point, where he/she performed well/bad)
     Only provide the answers to these questions—do not include any extra commentary. 2-4 multiple lines but seperated by full stops. Avoid conjunctions and commas

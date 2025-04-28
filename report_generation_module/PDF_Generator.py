@@ -533,8 +533,8 @@ from LLM_Module.Overall_Analyser import VideoResumeEvaluator
 from config import save_path
 
 # Register fonts
-pdfmetrics.registerFont(TTFont('Arial', r'ARIAL.TTF'))
-pdfmetrics.registerFont(TTFont('Arial-Bold', r'ArialBD.ttf'))
+pdfmetrics.registerFont(TTFont('Arial', r'fonts/ARIAL.TTF'))
+pdfmetrics.registerFont(TTFont('Arial-Bold', r'fonts/ARIALBD.TTF'))
 styles = getSampleStyleSheet()
 styles['BodyText'].fontName = 'Arial'
 
@@ -560,6 +560,8 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
             "Questions",
             "Level of Confidence through the presentation",
             "Did the speaker vary their tone, speed, and volume while delivering the speech/presentation?",
+            "Did they use any hand or body gesture while speaking? ",
+            "Did they have expression on thier face? ", 
             "Did the speech have a structure of Opening, Body and Conclusion?",
             "Was the overall \"Objective\" of the speech delivered clearly?",
             "Was the content of the presentation/speech to the point, or did it include unnecessary details that may have distracted or confused the audience?",
@@ -576,6 +578,8 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
             "Questions",
             "Level of Confidence through the presentation",
             "Did the speaker vary their tone, speed, volume?",
+            "Did they use any hand or body gesture while speaking? ",
+            "Did they have expression on thier face? ", 
             "Who are you and what are your skills, expertise, personality traits?",
             "Why are you the best person to fit this role?",
             "How are you different from others?",
@@ -749,7 +753,7 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
                 ("Posture", "posture"),
                 ("Smile", "Smile Score"),
                 ("Eye Contact", "Eye Contact"),
-                ("Energy levels through the presentation", "Energy levvels through the presentation")
+                ("Energy levels through the presentation", "Energy levels through the presentation")
             ]
             items_text = "Level of Confidence through the presentation<br/>" + "<br/>".join([f"• {item[0]}" for item in sub_items])
             scores = []
@@ -767,6 +771,99 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
                 Paragraph(items_text, normal_style),
                 Paragraph(numeric_score, normal_style),
                 Paragraph(scores_text, feedback_bullet_style)
+            ])
+        elif i == 3:
+            # # Sub-items for gesture energy evaluation
+            # sub_items = [
+            #     ("Gesture Energy", "gesture_energy"),  # Gesture energy data to check
+            # ]
+            
+            # Question text
+            items_text = "Did they use any gesture with thier hands or body while speaking?"
+            # <br/>" + "<br/>".join([f"• {item[0]}" for item in sub_items])
+            # Mapping gesture energy values to feedback
+            # Map gesture energy values to both feedback and numeric scores
+            gesture_feedback_map = {
+                "very high": (
+                    "The speaker used excessive hand and body gestures. Reducing the intensity slightly could help avoid distraction and improve clarity.",
+                    5
+                ),
+                "high": (
+                    "The speaker used expressive gestures, though slightly overdone. A more measured use of gestures could enhance the overall delivery.",
+                    4
+                ),
+                "medium": (
+                    "The speaker maintained a good balance of hand and body gestures, effectively supporting their speech. Great job!",
+                    3
+                ),
+                "low": (
+                    "The speaker's gestures were minimal. Adding more expressive movements could make the presentation more engaging.",
+                    2
+                ),
+                "very low": (
+                    "The speaker rarely used any gestures. Incorporating some body language could significantly boost engagement.",
+                    1
+                ),
+                "hands not detected": (
+                    "Hands not detected. Please move further from the camera to allow for natural body movements to be captured.",
+                    0
+                )
+            }
+            
+            # Get the gesture energy value
+            gesture_energy_value = tabular_data.get("gesture_energy", "hands not detected")
+            
+            # Get feedback and score
+            gesture_feedback, gesture_score = gesture_feedback_map.get(
+                gesture_energy_value, ("No gesture data available.", 0)
+            )
+
+            # Convert numeric score to string for table display
+            numeric_score = str(gesture_score)
+            
+            # Add gesture feedback to the scores
+            scores_text = gesture_feedback
+
+            # print(" I ---- > ", i - 1, midval_value)
+
+            # Add the new row for gesture feedback to the table
+            table_data.append([
+
+                Paragraph(f"{i}.", normal_style),
+                Paragraph(items_text, normal_style),
+                Paragraph(numeric_score, normal_style),
+                Paragraph(scores_text, normal_style)
+            ])
+        elif i == 4:
+            # Question text
+            items_text = "Did they have expression on their face?"
+
+            # Mapping expression score (1-5) to feedback
+            expression_feedback_map = {
+                5: "The speaker had excellent and very positive facial expressions. This greatly enhanced the delivery and helped connect with the audience.",
+                4: "The speaker showed good facial expressions, adding warmth and engagement to the talk. A bit more consistency could make it even better.",
+                3: "Facial expressions were moderate. While present at times, increasing expressiveness could make the talk more dynamic.",
+                2: "There was limited facial expression, which may have made the delivery feel a bit flat. Try to show more enthusiasm or emotion when appropriate.",
+                1: "Facial expressions were minimal or absent. Adding expressiveness can significantly improve the impact and connection with the audience.",
+                0: "No expression data available."
+            }
+
+            # Get the expression score
+            expression_score = int(tabular_data.get("positive_expression_score", 0))
+
+            # Get the corresponding feedback
+            expression_feedback = expression_feedback_map.get(expression_score, "No expression data available.")
+            # print(" I ---- > ", i - 1, midval_value)
+
+            numeric_score = str(expression_score)
+
+            # Add the new row for gesture feedback to the table
+            table_data.append([
+
+                Paragraph(f"{i}.", normal_style),
+                Paragraph(items_text, normal_style),
+                Paragraph(numeric_score, normal_style),
+                Paragraph(expression_feedback, normal_style)
             ])
         else:
             answer_index = i if i < len(llm_answers) else None

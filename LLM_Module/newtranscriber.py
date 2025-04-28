@@ -18,7 +18,7 @@ class VideoTranscriber:
         self.client = Groq()
         # self.model = whisper.load_model("small")
         self.target_size_kb = 50000 
-        self.client = Groq()
+        self.client = Groq(api_key="")
         self.compressed_audio_path = "audio/audio.wav"
 
     # def extract_audio(self):
@@ -61,10 +61,12 @@ class VideoTranscriber:
         ).run(overwrite_output=True)
 
         print(f"Compressed file saved to {self.output_audio_path}, Size: {os.path.getsize(self.output_audio_path) / 1024:.2f} KB")
+        print("hiiii1")
 
 
 
     def transcribe(self):
+        print("hiii")
         """Transcribe audio and save the results to the JSON file."""
         self.extract_audio() 
         with open(self.compressed_audio_path, "rb") as file:
