@@ -832,7 +832,7 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
                 Paragraph(f"{i}.", normal_style),
                 Paragraph(items_text, normal_style),
                 Paragraph(numeric_score, normal_style),
-                Paragraph(scores_text, normal_style)
+                Paragraph(scores_text, feedback_bullet_style)
             ])
         elif i == 4:
             # Question text
@@ -863,7 +863,7 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
                 Paragraph(f"{i}.", normal_style),
                 Paragraph(items_text, normal_style),
                 Paragraph(numeric_score, normal_style),
-                Paragraph(expression_feedback, normal_style)
+                Paragraph(expression_feedback, feedback_bullet_style)
             ])
         else:
             answer_index = i if i < len(llm_answers) else None
