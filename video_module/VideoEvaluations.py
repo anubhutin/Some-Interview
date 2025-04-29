@@ -316,12 +316,20 @@ class VideoAnalyzer:
                 mouth_width = np.linalg.norm([left_x - right_x, left_y - right_y])
                 mouth_height = np.linalg.norm([top_y - bottom_y, top_x - bottom_x])
 
-                if mouth_height == 0:
+                # Prevent division by zero
+                if mouth_height < 1e-6:
                     continue
 
+                # Compute smile ratio
                 ratio = mouth_width / mouth_height
 
-                if ratio > 2.1:
+                # Smile-specific cue: corners of the mouth higher than the center
+                # A smile usually lifts the corners while top lip center stays neutral
+                corners_avg_y = (left_y + right_y) / 2
+                is_smile_shape = corners_avg_y < bottom_y  # corners lifted relative to bottom lip
+
+
+                if ratio > 2.2 and is_smile_shape:
                     current_smile = True
                     print(f"[MediaPipe] Smile detected based on mouth ratio {ratio}")
                     break
