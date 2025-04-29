@@ -603,7 +603,8 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
         "Good": 4,
         "Satisfactory": 3,
         "Needs Improvement": 2,
-        "Poor": 1
+        "Poor": 1 , 
+        "Poor" : 0 
     }
     # Compute total score and maximum possible score
     total_score = 0
@@ -746,14 +747,14 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
         if i <= len(midval) and midval[i - 1] in score_mapping:
             numeric_score = str(score_mapping[midval[i - 1]])
         else:
-            numeric_score = "N/A"
+            numeric_score = "Poor"
             
         if i == 1:
             sub_items = [
                 ("Posture", "posture"),
                 ("Smile", "Smile Score"),
                 ("Eye Contact", "Eye Contact"),
-                ("Energy levels through the presentation", "Energy levvels through the presentation")
+                ("Energy levels through the presentation", "Energetic Start")
             ]
             items_text = "Level of Confidence through the presentation<br/>" + "<br/>".join([f"• {item[0]}" for item in sub_items])
             scores = []
@@ -763,7 +764,7 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
                 if metric_value in [1, 2, 3, 4, 5]:
                     scores.append(f"{item[0]}: {metric_value}")
                 else:
-                    scores.append(f"{item[0]}: N/A")
+                    scores.append(f"{item[0]}: Poor")
             # Format scores as bullet points
             scores_text = "<br/>".join([f" {s}" for s in scores])
             table_data.append([
