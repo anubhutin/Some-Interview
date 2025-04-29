@@ -709,7 +709,7 @@ def create_combined_pdf(logo_path, json_path, output_pdf_path):
         pass
 
     flowables.append(Spacer(1, 18))
-    flowables.append(PageBreak())
+    # flowables.append(PageBreak())
 
     # Heading for the Evaluation Metrics table
     section_style_table = ParagraphStyle('SectionStyle', parent=styles['BodyText'], 

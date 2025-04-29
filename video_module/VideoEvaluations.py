@@ -491,7 +491,7 @@ class VideoAnalyzer:
             "posture": int(avg_posture),
             "Eye Contact": int(avg_eye),
             "Smile Score": int(smile_score),
-            "Energetic Start": int(overall_energy),
+            "Energy levels through the presentation": int(overall_energy),
             "positive_expression_score":int(positive_expression_score),
-            "Energy levels through the presentation": gesture_energy
+            "gesture_energy": gesture_energy
         }
