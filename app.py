@@ -246,6 +246,33 @@ def index():
             logo_path = os.path.join(app.root_path, "logos", "logo.png")
             create_combined_pdf(logo_path, output_json_path, pdf_path)
 
+            try:
+                with open(pdf_path, "rb") as data:
+                    s3_client.upload_fileobj(data, S3_BUCKET, f"reports/{secure_filename(user_name)}_report.pdf")
+                print("pdf uploaded successfully.")
+            except Exception as e:
+                print("Video upload failed:", e)
+            # Upload PDF to S3
+
+            video_s3_url = f"https://{S3_BUCKET}.s3.{S3_REGION}.amazonaws.com/videos/{secure_filename(user_name)}_video.mp4"
+            report_s3_url = f"https://{S3_BUCKET}.s3.{S3_REGION}.amazonaws.com/reports/{secure_filename(user_name)}_report.pdf"
+
+            # Prepare MongoDB document
+            record = {
+                "user_name": user_name,
+                "video_url": video_s3_url,
+                "report_url": report_s3_url,
+                "created_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow()
+            }
+
+            # Insert into MongoDB
+            try:
+                reports_collection.insert_one(record)
+                print("Record inserted into MongoDB successfully.")
+            except Exception as e:
+                print("MongoDB insert failed:", e)
+
             flash("Video analysis and PDF report generation completed successfully!", "success")
             return render_template("result.html", 
                                    user_name=user_name, 
